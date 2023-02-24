@@ -2,27 +2,29 @@ package Aplication;
 
 import java.awt.Color;
 
+import Chess.ChessMatch;
 import Chess.ChessPiece;
-import boardGame.Board;
 import boardGame.Position;
 
 public class Program {
 	public static void main(String[] args) {
 
-		Board board = new Board(8 ,8);
-		
-		for (int i = 0; i < board.getRows();i++) {
-			for (int e = 0; e < board.getColumns();e++) {
-				
-				ChessPiece p = new ChessPiece(board, Color.BLACK);
-				Position position = new Position(i, e);
-				board.piece(i, e);
-				
-				
-			}
-		}
+		ChessMatch chessMatch = new ChessMatch();
+		UI.printBoard(chessMatch.getPieces());
 
 		
 		
+//		for (int i = 0; i < chessMatch.getPieces().length; i++) {
+//			for (int e = 0; e < chessMatch.getPieces().length; e++) {
+//
+//				ChessPiece p = new ChessPiece(chessMatch.getBoard(), Chess.Color.BLACK);
+//				Position position = new Position(i, e);
+//				chessMatch.getBoard().PlacePiece(p, position);
+//
+//			}
+//		}
+
+
+
 	}
 }

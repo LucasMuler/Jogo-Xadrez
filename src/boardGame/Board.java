@@ -1,46 +1,76 @@
 package boardGame;
 
-import boardGame.Position;
+import Exceptions.BoardException;
 
 public class Board {
 
 	private int rows;
 	private int columns;
 	private Piece[][] pieces;
-	
+
 	public Board(int rows, int columns) {
-		this.rows = rows;
-		this.columns = columns;
-		this.pieces = new Piece[rows][columns];
+		if (rows >= 1 && columns >= 1) {
+			this.rows = rows;
+			this.columns = columns;
+			this.pieces = new Piece[rows][columns];
+		} else {
+			throw new BoardException("The board rows and columns need to be mor then 1");
+		}
+
 	}
 
 	public int getRows() {
 		return rows;
 	}
 
-	public void setRows(int rows) {
-		this.rows = rows;
-	}
-
 	public int getColumns() {
 		return columns;
 	}
 
-	public void setColumns(int columns) {
-		this.columns = columns;
-	}
-	
 	public Piece piece(int row, int column) {
-		return pieces[row][column];
-	}
-	
-	public Piece piece(Position position) {
-		return pieces[position.getRow()][position.getColumn()];
-	}
-	
-	public void PlacePiece(Piece piece, Position c) {
-		piece.setPosition(c);
-	}
-	
 
+		if (positionExists(row, column)) {
+			return pieces[row][column];
+		} else {
+			throw new BoardException("Position not on the board");
+		}
+
+	}
+
+	public Piece piece(Position position) {
+
+		if (positionExists(position)) {
+			return pieces[position.getRow()][position.getColumn()];
+		} else {
+			throw new BoardException("Position not on the board");
+		}
+	}
+
+	public void PlacePiece(Piece piece, Position c) {
+
+		if (thereIsAPiece(c)) {
+			pieces[c.getRow()][c.getColumn()] = piece;
+		} else if (!positionExists(c)) {
+			throw new BoardException("Position not on the board");
+		}
+
+	}
+
+	private boolean positionExists(int row, int column) {
+		return row >= 0 && row < rows && column >= 0 && column < columns;
+	}
+
+	public boolean positionExists(Position position) {
+		return positionExists(position.getRow(), position.getColumn());
+	}
+
+	public boolean thereIsAPiece(Position position) {
+
+		if (piece(position) == null) {
+			return true;
+		} else {
+			throw new BoardException("There is a piece in position " + position);
+		}
+
+	}
 }

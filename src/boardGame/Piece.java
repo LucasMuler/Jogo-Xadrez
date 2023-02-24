@@ -14,4 +14,12 @@ public class Piece {
 		return board;
 	}
 
+	public Position getPosition() {
+		return position;
+	}
+
+	public void setPosition(Position postition) {
+		this.position = postition;
+	}
+	
 }
