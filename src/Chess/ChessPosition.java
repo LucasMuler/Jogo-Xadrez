@@ -1,7 +1,41 @@
 package Chess;
 
+import Exceptions.ChessException;
+import boardGame.Position;
+
 public class ChessPosition {
 
+	private char column;
+	private int row;
+	
+	public ChessPosition(char column,int row) {
+		if (column >= 'a' && column <= 'h' && row >= 1 && row <= 8) {
+			this.column = column;
+			this.row = row;
+		} else {
+			throw new ChessException("Inexistent position");
+		}
+		
+	}
+
+	public char getColumn() {
+		return column;
+	}
+
+	public int getRow() {
+		return row;
+	}
+
+	protected Position toPosition() {
+		return new Position(this.row - 8,this.column - 'a');
+	}
+	
+	@Override
+	public String toString() {
+		return "" + column + row;
+	}
+
+	
 	
 	
 }
