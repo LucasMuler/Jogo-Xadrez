@@ -1,9 +1,10 @@
-package Chess;
+ package Chess;
 
 import Chess.Pieces.King;
-import Chess.Pieces.Knight;
 import Chess.Pieces.Rook;
+import Exceptions.ChessException;
 import boardGame.Board;
+import boardGame.Piece;
 import boardGame.Position;
 
 public class ChessMatch {
@@ -30,6 +31,30 @@ public class ChessMatch {
 		return mat;
 	}
 	
+	public ChessPiece performChessMove(ChessPosition sourcePosition, ChessPosition targetPosition) {
+		Position source = sourcePosition.toPosition();
+		Position target = targetPosition.toPosition();
+		validateSourcePosition(source);
+		
+		Piece capturedPiece = makeMove(source, target);
+		return (ChessPiece)capturedPiece;
+	}
+	
+	private Piece makeMove(Position source, Position target) {
+		Piece p = board.RemovePiece(source);
+		Piece capturedPiece = board.RemovePiece(target);
+		board.PlacePiece(p, target);
+		return capturedPiece;
+	}
+
+	private void validateSourcePosition(Position position) {
+		if (board.thereIsAPiece(position)) {
+			throw new ChessException("There is no piece in source position");
+		}
+	}
+	
+	
+
 	private void placeNewPiece(char column, int row, ChessPiece piece) {
 		board.PlacePiece(piece, new ChessPosition(column, row).toPosition());
 	}
