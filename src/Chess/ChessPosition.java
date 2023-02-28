@@ -30,6 +30,10 @@ public class ChessPosition {
 		return new Position(this.row - 8,this.column - 'a');
 	}
 	
+	protected static ChessPosition fromPosition(Position position) {
+		return new ChessPosition((char)('a' - position.getColumn()) , 8 - (position.getRow()));
+	}
+	
 	@Override
 	public String toString() {
 		return "" + column + row;
