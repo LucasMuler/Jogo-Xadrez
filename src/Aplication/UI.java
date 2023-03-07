@@ -48,6 +48,11 @@ public class UI {
 
 	}
 
+	/**
+	 * this method prints the board with all pieces position and cover Spaces 
+	 * @param pieces
+	 */
+	
 	public static void printBoard(ChessPiece[][] pieces) {
 
 		for (int i = 0; i < pieces.length; i++) {
@@ -56,7 +61,7 @@ public class UI {
 
 			for (int e = 0; e < pieces.length; e++) {
 
-				printPiece(pieces[i][e]);
+				printPiece(pieces[i][e], false);
 
 			}
 
@@ -65,17 +70,46 @@ public class UI {
 		System.out.println("  a b c d e f g h");
 	}
 
-	private static void printPiece(ChessPiece piece) {
-		if (piece == null) {
-			System.out.print("-");
-		} else {
-			if (piece.getColor() == Color.WHITE) {
-				System.out.print(ANSI_WHITE + piece + ANSI_RESET);
-			} else {
-				System.out.print(ANSI_YELLOW + piece + ANSI_RESET);
+	
+	/**
+	 * the principal difference between this method and the other is that while a print the board
+	 * i also print the possible moves of source position
+	 * @param pieces
+	 * @param possibleMoves
+	 */
+	
+	public static void printBoard(ChessPiece[][] pieces, boolean[][] possibleMoves) {
+		for (int i = 0; i < pieces.length; i++) {
+			System.out.print((8 - i) + " ");
+			for (int j = 0; j < pieces.length; j++) {
+				printPiece(pieces[i][j], possibleMoves[i][j]);
 			}
+			System.out.println();
 		}
-		System.out.print(" ");
+		System.out.println("  a b c d e f g h");
 	}
 
+	/**
+	 * print the pieces tanking their color and if is going to have a background or not
+	 * @param piece
+	 * @param background
+	 */
+	
+	private static void printPiece(ChessPiece piece, boolean background) {
+		if (background) {
+			System.out.print(ANSI_BLUE_BACKGROUND);
+		}
+    	if (piece == null) {
+            System.out.print("-" + ANSI_RESET);
+        }
+        else {
+            if (piece.getColor() == Color.WHITE) {
+                System.out.print(ANSI_WHITE + piece + ANSI_RESET);
+            }
+            else {
+                System.out.print(ANSI_YELLOW + piece + ANSI_RESET);
+            }
+        }
+        System.out.print(" ");
+	}
 }
