@@ -31,13 +31,13 @@ public abstract class Piece {
 		boolean mat[][] = PossibleMoves();
 		for (int i = 0; i < mat.length;i++) {
 			for (int j = 0; j < mat.length; j++) {
-//				if(mat[i][j]) {
-//					return true
-//				}
-				Position p = new Position(i,j);
-				if (possibleMove(p)) {
+				if(mat[i][j]) {
 					return true;
 				}
+//				Position p = new Position(i,j);
+//				if (possibleMove(p)) {
+//					return true;
+//				}
 			}
 		}
 		return false;
