@@ -1,5 +1,8 @@
  package Chess;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import Chess.Pieces.King;
 import Chess.Pieces.Rook;
 import Exceptions.ChessException;
@@ -18,6 +21,10 @@ public class ChessMatch {
 	private int turn;
 	private Color currentPlayer;
 	private Board board;
+	
+	private List<ChessPiece> piecesOnTheBoard = new ArrayList();
+	private List<ChessPiece> capturedPieces = new ArrayList();
+	
 	
 	/**
 	 * default constructor
@@ -108,7 +115,8 @@ public class ChessMatch {
 	}
 	
 	/**
-	 * this method turns the source position to null and copy the deleted piece to a new position
+	 * this method turns the source position to null and copy the deleted piece to a new position, also if there is any
+	 * captured piece, the method remove of the lists
 	 * @param source
 	 * @param target
 	 * @return
@@ -117,6 +125,12 @@ public class ChessMatch {
 		Piece p = board.RemovePiece(source);
 		Piece capturedPiece = board.RemovePiece(target);
 		board.PlacePiece(p, target);
+		
+		if(capturedPiece != null) {
+			piecesOnTheBoard.remove(capturedPiece);
+			capturedPieces.add((ChessPiece) capturedPiece);
+		}
+		
 		return capturedPiece;
 	}
 
@@ -163,7 +177,7 @@ public class ChessMatch {
 	}
 	
 	/**
-	 * place a new piece in the positions that are given to this method
+	 * place a new piece in the positions that are given to this method, and add this piece in the list of pieces on the board
 	 * @param column
 	 * @param row
 	 * @param piece
@@ -171,6 +185,7 @@ public class ChessMatch {
 
 	private void placeNewPiece(char column, int row, ChessPiece piece) {
 		board.PlacePiece(piece, new ChessPosition(column, row).toPosition());
+		piecesOnTheBoard.add(piece);
 	}
 	
 	/**

@@ -1,7 +1,10 @@
 package Aplication;
 
+import java.util.Arrays;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 import Chess.ChessMatch;
 import Chess.ChessPiece;
@@ -50,12 +53,14 @@ public class UI {
 	}
 
 	/**
-	 * this takes the function off print the pieces position and board, and also print how is the next player
+	 * this takes the function off print the pieces position and board, how is the next player and the captured pieces in a array format
 	 * @param chessMatch
 	 */
 	
-	public static void printMatch(ChessMatch chessMatch) {
+	public static void printMatch(ChessMatch chessMatch, List<ChessPiece> captured) {
 		printBoard(chessMatch.getPieces());
+		System.out.println();
+		printCapturatedPieces(captured);
 		System.out.println();
 		System.out.println("Turn : " + chessMatch.getTurn());
 		System.out.println("Waiting player: " + chessMatch.getCurrentPlayer());
@@ -126,4 +131,28 @@ public class UI {
         }
         System.out.print(" ");
 	}
+	
+	/**
+	 * Receive a list off the captured pieces and show it to the player
+	 * Its interesting that uses a filter whit lambda so need to be see whit caution, and also this sysout is the most used form to print
+	 * an array. 
+	 * @param captured
+	 */
+	
+	private static void printCapturatedPieces(List<ChessPiece> captured) {
+		List<ChessPiece> white = captured.stream().filter(x -> x.getColor() == Color.WHITE).collect(Collectors.toList());
+		List<ChessPiece> black = captured.stream().filter(x -> x.getColor() == Color.BLACK).collect(Collectors.toList());
+		
+		System.out.println("Captured pieces:");
+		System.out.print("White: ");
+		System.out.print(ANSI_WHITE);
+		System.out.print(Arrays.toString(white.toArray())); // this use a class of java.util to turn an array to a String
+		System.out.println(ANSI_RESET);
+		System.out.print("Black: ");
+		System.out.print(ANSI_YELLOW);
+		System.out.print(Arrays.toString(black.toArray()));
+		System.out.println(ANSI_RESET);
+		
+	}
+	
 }
