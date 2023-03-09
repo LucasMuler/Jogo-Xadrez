@@ -3,6 +3,7 @@ package Aplication;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import Chess.ChessMatch;
 import Chess.ChessPiece;
 import Chess.ChessPosition;
 import Chess.Color;
@@ -48,6 +49,19 @@ public class UI {
 
 	}
 
+	/**
+	 * this takes the function off print the pieces position and board, and also print how is the next player
+	 * @param chessMatch
+	 */
+	
+	public static void printMatch(ChessMatch chessMatch) {
+		printBoard(chessMatch.getPieces());
+		System.out.println();
+		System.out.println("Turn : " + chessMatch.getTurn());
+		System.out.println("Waiting player: " + chessMatch.getCurrentPlayer());
+		System.out.println();
+	}
+	
 	/**
 	 * this method prints the board with all pieces position and cover Spaces 
 	 * @param pieces

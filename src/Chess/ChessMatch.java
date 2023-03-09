@@ -15,6 +15,8 @@ import boardGame.Position;
 
 public class ChessMatch {
 
+	private int turn;
+	private Color currentPlayer;
 	private Board board;
 	
 	/**
@@ -23,12 +25,38 @@ public class ChessMatch {
 	
 	public ChessMatch() {
 		board = new Board(8, 8);
+		turn = 1;
+		currentPlayer = Color.WHITE;
 		initialSetup();
 	}
 
+	/**
+	 *  get board
+	 * @return
+	 */
+	
 	public Board getBoard() {
 		return board;
 	}
+	
+	/**
+	 * Get turn
+	 * @return
+	 */
+	
+	public int getTurn() {
+		return turn;
+	}
+
+	/**
+	 * GetPlayer
+	 * @return
+	 */
+	
+	public Color getCurrentPlayer() {
+		return currentPlayer;
+	}
+
 
 	/**
 	 * return a matrix of the position off each piece 
@@ -75,6 +103,7 @@ public class ChessMatch {
 		validateSourcePosition(source);
 		validateTargetPosition(source, target);
 		Piece capturedPiece = makeMove(source, target);
+		nextTurn();
 		return (ChessPiece)capturedPiece;
 	}
 	
@@ -93,13 +122,16 @@ public class ChessMatch {
 
 	
 	/**
-	 * verifies if there is a piece in source position and if are any possible movement 
+	 * verifies if there is a piece in source position, see if the the current player can chose this piece and if are any possible movement 
 	 * @param position
 	 */
 	private void validateSourcePosition(Position position) {
 		if (!board.thereIsAPiece(position)) {
 			throw new ChessException("There is no piece in source position");		
 		} 
+		else if (!(currentPlayer == ((ChessPiece)board.piece(position)).getColor())) {
+			throw new ChessException("The chosen piece is not yours");
+		}
 		else if(!board.piece(position).isThereAnyPossibleMove()) {
 			throw new ChessException("There is no possible moves for the chosen piece");
 		}
@@ -114,6 +146,19 @@ public class ChessMatch {
 	private void validateTargetPosition(Position source, Position target) {
 		if (!board.piece(source).possibleMove(target)) {
 			throw new ChessException("The chosen piece can't move to target position");
+		}
+	}
+	
+	/**
+	 * show who is the next player in base of the color 
+	 */
+	
+	private void nextTurn() {
+		turn++;
+		if(currentPlayer == Color.WHITE) {
+			currentPlayer = Color.BLACK;
+		} else {
+			currentPlayer = Color.WHITE;
 		}
 	}
 	
